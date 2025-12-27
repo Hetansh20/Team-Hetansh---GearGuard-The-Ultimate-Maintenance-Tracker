@@ -1,10 +1,14 @@
-import { ReactNode, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { useUserRole, UserRole } from '@/hooks/useUserRole';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+"use client"
+
+import type React from "react"
+
+import { type ReactNode, useState } from "react"
+import { useNavigate, useLocation, Link } from "react-router-dom"
+import { useAuth } from "@/contexts/AuthContext"
+import { useUserRole, type UserRole } from "@/hooks/useUserRole"
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +16,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu"
 import {
   Wrench,
   LayoutDashboard,
@@ -27,73 +31,75 @@ import {
   Bell,
   Shield,
   UserCog,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface DashboardLayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 interface NavItem {
-  name: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-  roles?: UserRole[]; // If undefined, all roles can see it
+  name: string
+  href: string
+  icon: React.ComponentType<{ className?: string }>
+  roles?: UserRole[] // If undefined, all roles can see it
 }
 
 const navigation: NavItem[] = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Work Orders', href: '/dashboard/work-orders', icon: ClipboardList },
-  { name: 'Equipment', href: '/dashboard/equipment', icon: Settings },
-  { name: 'Team', href: '/dashboard/team', icon: Users, roles: ['admin', 'manager'] },
-  { name: 'Organization', href: '/dashboard/organization', icon: Building2, roles: ['admin'] },
-];
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Work Orders", href: "/dashboard/work-orders", icon: ClipboardList },
+  { name: "Equipment", href: "/dashboard/equipment", icon: Settings },
+  { name: "Categories", href: "/dashboard/categories", icon: LayoutDashboard, roles: ["admin", "manager"] },
+  { name: "Maintenance Teams", href: "/dashboard/teams", icon: Users, roles: ["admin", "manager"] },
+  { name: "Team", href: "/dashboard/team", icon: Users, roles: ["admin", "manager"] },
+  { name: "Organization", href: "/dashboard/organization", icon: Building2, roles: ["admin"] },
+]
 
 const roleColors: Record<UserRole, string> = {
-  admin: 'bg-destructive/10 text-destructive border-destructive/20',
-  manager: 'bg-primary/10 text-primary border-primary/20',
-  technician: 'bg-success/10 text-success border-success/20',
-  requester: 'bg-muted text-muted-foreground border-border',
-};
+  admin: "bg-destructive/10 text-destructive border-destructive/20",
+  manager: "bg-primary/10 text-primary border-primary/20",
+  technician: "bg-success/10 text-success border-success/20",
+  requester: "bg-muted text-muted-foreground border-border",
+}
 
 const roleLabels: Record<UserRole, string> = {
-  admin: 'Admin',
-  manager: 'Manager',
-  technician: 'Technician',
-  requester: 'Requester',
-};
+  admin: "Admin",
+  manager: "Manager",
+  technician: "Technician",
+  requester: "Requester",
+}
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, signOut } = useAuth();
-  const { role, organizationName } = useUserRole();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { user, signOut } = useAuth()
+  const { role, organizationName } = useUserRole()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      await signOut()
     } catch (error) {
-      console.error('Sign out error:', error);
+      console.error("Sign out error:", error)
     } finally {
       // Always navigate to auth page, even if signOut has issues
-      navigate('/auth');
+      navigate("/auth")
     }
-  };
+  }
 
   const userInitials = user?.user_metadata?.full_name
     ? user.user_metadata.full_name
-        .split(' ')
+        .split(" ")
         .map((n: string) => n[0])
-        .join('')
+        .join("")
         .toUpperCase()
-    : user?.email?.[0]?.toUpperCase() || 'U';
+    : user?.email?.[0]?.toUpperCase() || "U"
 
   // Filter navigation based on user role
   const filteredNavigation = navigation.filter((item) => {
-    if (!item.roles) return true;
-    return role && item.roles.includes(role);
-  });
+    if (!item.roles) return true
+    return role && item.roles.includes(role)
+  })
 
   return (
     <div className="min-h-screen bg-background">
@@ -108,8 +114,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 bg-sidebar transform transition-transform duration-200 ease-in-out lg:translate-x-0',
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          "fixed inset-y-0 left-0 z-50 w-64 bg-sidebar transform transition-transform duration-200 ease-in-out lg:translate-x-0",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex flex-col h-full">
@@ -121,10 +127,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </div>
               <span className="text-lg font-bold text-sidebar-foreground">GearGuard</span>
             </Link>
-            <button
-              className="lg:hidden text-sidebar-foreground"
-              onClick={() => setSidebarOpen(false)}
-            >
+            <button className="lg:hidden text-sidebar-foreground" onClick={() => setSidebarOpen(false)}>
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -133,15 +136,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="px-4 py-3 border-b border-sidebar-border">
             <div className="flex items-center gap-2 text-sm">
               <Building2 className="h-4 w-4 text-sidebar-foreground/60" />
-              <span className="text-sidebar-foreground/80 truncate">
-                {organizationName || 'No Organization'}
-              </span>
+              <span className="text-sidebar-foreground/80 truncate">{organizationName || "No Organization"}</span>
             </div>
             {role && (
-              <Badge
-                variant="outline"
-                className={cn('mt-2 text-xs', roleColors[role])}
-              >
+              <Badge variant="outline" className={cn("mt-2 text-xs", roleColors[role])}>
                 {roleLabels[role]}
               </Badge>
             )}
@@ -150,22 +148,22 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
             {filteredNavigation.map((item) => {
-              const isActive = location.pathname === item.href;
+              const isActive = location.pathname === item.href
               return (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                     isActive
-                      ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                      : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
                   )}
                 >
                   <item.icon className="h-5 w-5" />
                   {item.name}
                 </Link>
-              );
+              )
             })}
           </nav>
 
@@ -179,11 +177,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-sidebar-foreground truncate">
-                  {user?.user_metadata?.full_name || 'User'}
+                  {user?.user_metadata?.full_name || "User"}
                 </p>
-                <p className="text-xs text-sidebar-foreground/60 truncate">
-                  {user?.email}
-                </p>
+                <p className="text-xs text-sidebar-foreground/60 truncate">{user?.email}</p>
               </div>
             </div>
           </div>
@@ -196,23 +192,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <header className="sticky top-0 z-30 h-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
           <div className="flex items-center justify-between h-full px-4 sm:px-6">
             <div className="flex items-center gap-4">
-              <button
-                className="lg:hidden text-foreground"
-                onClick={() => setSidebarOpen(true)}
-              >
+              <button className="lg:hidden text-foreground" onClick={() => setSidebarOpen(true)}>
                 <Menu className="h-6 w-6" />
               </button>
               <h1 className="text-lg font-semibold text-foreground">
-                {filteredNavigation.find((item) => item.href === location.pathname)?.name || 'Dashboard'}
+                {filteredNavigation.find((item) => item.href === location.pathname)?.name || "Dashboard"}
               </h1>
             </div>
 
             <div className="flex items-center gap-3">
               {/* Role indicator */}
               {role && (
-                <Badge variant="outline" className={cn('hidden sm:flex', roleColors[role])}>
-                  {role === 'admin' && <Shield className="h-3 w-3 mr-1" />}
-                  {role === 'manager' && <UserCog className="h-3 w-3 mr-1" />}
+                <Badge variant="outline" className={cn("hidden sm:flex", roleColors[role])}>
+                  {role === "admin" && <Shield className="h-3 w-3 mr-1" />}
+                  {role === "manager" && <UserCog className="h-3 w-3 mr-1" />}
                   {roleLabels[role]}
                 </Badge>
               )}
@@ -238,22 +231,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium">
-                        {user?.user_metadata?.full_name || 'User'}
-                      </p>
+                      <p className="text-sm font-medium">{user?.user_metadata?.full_name || "User"}</p>
                       <p className="text-xs text-muted-foreground">{user?.email}</p>
                       {role && (
-                        <Badge variant="outline" className={cn('w-fit text-xs mt-1', roleColors[role])}>
+                        <Badge variant="outline" className={cn("w-fit text-xs mt-1", roleColors[role])}>
                           {roleLabels[role]}
                         </Badge>
                       )}
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    onClick={handleSignOut} 
-                    className="text-destructive cursor-pointer"
-                  >
+                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive cursor-pointer">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign out
                   </DropdownMenuItem>
@@ -267,5 +255,5 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <main className="p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
-  );
+  )
 }

@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Search, Building2, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Loader2, Search, Building2, Clock, CheckCircle, XCircle, LogOut } from 'lucide-react';
 
 interface Organization {
   id: string;
@@ -24,10 +24,15 @@ interface JoinRequest {
 }
 
 export default function JoinOrganization() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
   const { organizationId, loading: roleLoading, refetch } = useUserRole();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
+  };
 
   const [searchTerm, setSearchTerm] = useState('');
   const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -202,7 +207,16 @@ export default function JoinOrganization() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8 bg-background">
+    <div className="min-h-screen flex items-center justify-center p-8 bg-background relative">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleSignOut}
+        className="absolute top-4 right-4 text-muted-foreground hover:text-destructive"
+      >
+        <LogOut className="h-4 w-4 mr-2" />
+        Sign Out
+      </Button>
       <div className="w-full max-w-lg space-y-6">
         <Card className="shadow-medium">
           <CardHeader>

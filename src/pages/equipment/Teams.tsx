@@ -106,7 +106,7 @@ export default function Teams() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold tracking-tight">Maintenance Teams</h2>
-        {role === "admin" && (
+        {(role === "admin" || role === "manager") && (
           <Dialog
             open={isDialogOpen}
             onOpenChange={(open) => {
@@ -223,7 +223,7 @@ export default function Teams() {
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
-                    {role === "admin" && (
+                    {(role === "admin" || role === "manager") && (
                       <div className="flex justify-end gap-2">
                         <Button
                           variant="ghost"

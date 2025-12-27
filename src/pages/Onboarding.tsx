@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Building2, Loader2, ArrowRight } from 'lucide-react';
+import { Building2, Loader2, ArrowRight, LogOut } from 'lucide-react';
 import { z } from 'zod';
 
 const orgNameSchema = z.string().min(2, 'Organization name must be at least 2 characters').max(100);
@@ -18,8 +18,13 @@ export default function Onboarding() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
   const { organizationId, loading: roleLoading } = useUserRole();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
+  };
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -91,7 +96,16 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleSignOut}
+        className="absolute top-4 right-4 text-muted-foreground hover:text-destructive"
+      >
+        <LogOut className="h-4 w-4 mr-2" />
+        Sign Out
+      </Button>
       <Card className="w-full max-w-md shadow-medium animate-fade-in">
         <CardHeader className="text-center">
           <div className="mx-auto p-3 bg-primary/10 rounded-full w-fit mb-4">
