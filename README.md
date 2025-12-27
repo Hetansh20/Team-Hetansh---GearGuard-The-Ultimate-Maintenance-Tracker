@@ -127,18 +127,7 @@ Supports two types of maintenance:
 6. Preventive tasks appear in Calendar
 7. Reports provide actionable insights
 
----
 
-## 🔮 Future Enhancements
-
-- Predictive maintenance using ML
-- IoT sensor integration
-- Equipment health scoring
-- Downtime cost analytics
-- Mobile app for technicians
-- ERP integration
-
----
 
 ## 👥 Team
 
