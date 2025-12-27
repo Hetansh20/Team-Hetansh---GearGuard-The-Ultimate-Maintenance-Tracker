@@ -52,3 +52,104 @@ Most organizations rely on **manual tracking or fragmented tools**, making maint
 - Assign technicians to teams
 - Role-based workflow:
   - Only relevant team members can work on assigned requests
+
+---
+
+### 🛠️ Maintenance Requests
+Supports two types of maintenance:
+
+#### 🔴 Corrective Maintenance (Breakdown)
+- Created by any user
+- Auto-fills maintenance team based on equipment
+- Kanban-based workflow:
+  - **New → In Progress → Repaired → Scrap**
+- Track actual repair duration
+
+#### 🟢 Preventive Maintenance (Routine)
+- Scheduled in advance by managers
+- Appears automatically in Calendar View
+- Helps reduce unexpected failures
+
+---
+
+### 📋 Smart Automation
+- Auto-fetch maintenance team when equipment is selected
+- Technician self-assignment
+- Overdue request indicators
+- Scrap logic marks equipment as unusable
+
+---
+
+### 🧩 Smart UI Components
+- **Kanban Board** for technicians
+- **Calendar View** for preventive maintenance
+- **Smart Button** on equipment form:
+  - View all related maintenance requests
+  - Badge shows number of open requests
+
+---
+
+### 📊 Reporting & Insights (Optional / Advanced)
+- Requests per team
+- Requests per equipment category
+- Foundation for predictive analytics
+
+---
+
+## 🏆 Why GearGuard Stands Out
+
+✔ Enterprise-inspired design (Odoo-like)  
+✔ Automation-first approach  
+✔ Clear separation of master and transactional data  
+✔ Business-focused logic (downtime reduction)  
+✔ Scalable for factories, IT assets, hospitals, and fleets  
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React / HTML / CSS / JS  
+- **Backend:** Flask / Django / Node.js  
+- **Database:** PostgreSQL / MongoDB  
+- **UI Views:** Kanban, Calendar, List, Reports  
+
+*(Stack can be adapted based on deployment needs)*
+
+---
+
+## 🧪 Workflow Overview
+
+1. Register equipment
+2. Assign maintenance team
+3. Create maintenance request
+4. System auto-assigns team
+5. Technician processes request via Kanban
+6. Preventive tasks appear in Calendar
+7. Reports provide actionable insights
+
+---
+
+## 🔮 Future Enhancements
+
+- Predictive maintenance using ML
+- IoT sensor integration
+- Equipment health scoring
+- Downtime cost analytics
+- Mobile app for technicians
+- ERP integration
+
+---
+
+## 👥 Team
+
+Built with ❤️ during a Hackathon to solve real-world maintenance challenges.
+
+---
+
+## 📜 License
+
+This project is licensed for educational and hackathon use.
+
+---
+
+> **GearGuard doesn’t just track maintenance — it makes maintenance intelligent.**
