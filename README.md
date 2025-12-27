@@ -1,73 +1,155 @@
-# Welcome to your Lovable project
+# ⚙️ GearGuard — The Ultimate Maintenance Tracker
 
-## Project info
+> **Transforming reactive maintenance into proactive, intelligence-driven operations**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+GearGuard is a smart maintenance management system designed to help organizations **track equipment, manage maintenance teams, and reduce downtime** through automated workflows and intelligent insights.  
+Inspired by enterprise tools like Odoo, GearGuard focuses on **clarity, automation, and business impact**.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🚀 Problem Statement
 
-**Use Lovable**
+Unplanned equipment failures lead to:
+- Production downtime
+- Increased repair costs
+- Poor maintenance visibility
+- Inefficient technician utilization
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Most organizations rely on **manual tracking or fragmented tools**, making maintenance reactive instead of proactive.
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 💡 Our Solution
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**GearGuard** centralizes asset management and maintenance operations into a single intelligent platform that:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Connects **Equipment**, **Teams**, and **Requests**
+- Automates maintenance workflows
+- Supports both **Corrective** and **Preventive** maintenance
+- Provides visual insights through Kanban, Calendar, and Reports
+- Lays the foundation for predictive maintenance
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🧠 Key Features
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 🏗️ Equipment Management
+- Centralized registry of all company assets
+- Track equipment by:
+  - Department
+  - Employee ownership
+- Maintain complete lifecycle data:
+  - Serial number
+  - Purchase date
+  - Warranty
+  - Location
+- Assign default maintenance team and technician
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+### 🧑‍🔧 Maintenance Teams
+- Create specialized teams (IT, Mechanical, Electrical, etc.)
+- Assign technicians to teams
+- Role-based workflow:
+  - Only relevant team members can work on assigned requests
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 🛠️ Maintenance Requests
+Supports two types of maintenance:
 
-**Use GitHub Codespaces**
+#### 🔴 Corrective Maintenance (Breakdown)
+- Created by any user
+- Auto-fills maintenance team based on equipment
+- Kanban-based workflow:
+  - **New → In Progress → Repaired → Scrap**
+- Track actual repair duration
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+#### 🟢 Preventive Maintenance (Routine)
+- Scheduled in advance by managers
+- Appears automatically in Calendar View
+- Helps reduce unexpected failures
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+### 📋 Smart Automation
+- Auto-fetch maintenance team when equipment is selected
+- Technician self-assignment
+- Overdue request indicators
+- Scrap logic marks equipment as unusable
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+### 🧩 Smart UI Components
+- **Kanban Board** for technicians
+- **Calendar View** for preventive maintenance
+- **Smart Button** on equipment form:
+  - View all related maintenance requests
+  - Badge shows number of open requests
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+### 📊 Reporting & Insights (Optional / Advanced)
+- Requests per team
+- Requests per equipment category
+- Foundation for predictive analytics
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🏆 Why GearGuard Stands Out
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+✔ Enterprise-inspired design (Odoo-like)  
+✔ Automation-first approach  
+✔ Clear separation of master and transactional data  
+✔ Business-focused logic (downtime reduction)  
+✔ Scalable for factories, IT assets, hospitals, and fleets  
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React / HTML / CSS / JS  
+- **Backend:** Flask / Django / Node.js  
+- **Database:** PostgreSQL / MongoDB  
+- **UI Views:** Kanban, Calendar, List, Reports  
+
+*(Stack can be adapted based on deployment needs)*
+
+---
+
+## 🧪 Workflow Overview
+
+1. Register equipment
+2. Assign maintenance team
+3. Create maintenance request
+4. System auto-assigns team
+5. Technician processes request via Kanban
+6. Preventive tasks appear in Calendar
+7. Reports provide actionable insights
+
+---
+
+## 🔮 Future Enhancements
+
+- Predictive maintenance using ML
+- IoT sensor integration
+- Equipment health scoring
+- Downtime cost analytics
+- Mobile app for technicians
+- ERP integration
+
+---
+
+## 👥 Team
+
+Built with ❤️ during a Hackathon to solve real-world maintenance challenges.
+
+---
+
+## 📜 License
+
+This project is licensed for educational and hackathon use.
+
+---
+
+> **GearGuard doesn’t just track maintenance — it makes maintenance intelligent.**
