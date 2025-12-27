@@ -27,8 +27,20 @@ const requestSchema = z.object({
   status: z.enum(["New", "In Progress", "Repaired", "Scrap"]),
   assigned_team_id: z.string().nullable(),
   assigned_technician_id: z.string().nullable(),
+<<<<<<< HEAD
   scheduled_date: z.string().optional(),
   duration: z.coerce.number().min(0).optional(),
+=======
+  equipment_category_id: z.string().nullable(),
+  scheduled_date: z.string().nullable().optional(),
+  duration: z.coerce.number().min(0).optional(),
+}).refine((data) => {
+  if (data.type === "Preventive" && !data.scheduled_date) return false;
+  return true;
+}, {
+  message: "Scheduled date is required for Preventive maintenance",
+  path: ["scheduled_date"],
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
 })
 
 export default function MaintenanceForm() {
@@ -49,6 +61,10 @@ export default function MaintenanceForm() {
       status: "New",
       assigned_team_id: null,
       assigned_technician_id: null,
+<<<<<<< HEAD
+=======
+      equipment_category_id: null,
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
     },
   })
 
@@ -77,12 +93,18 @@ export default function MaintenanceForm() {
     queryFn: async () => {
       const { data } = await (supabase as any)
         .from("equipment")
+<<<<<<< HEAD
         .select("id, name, serial_number, assigned_team_id, status")
         .eq("organization_id", organizationId)
         .neq("status", "Scrapped") // Don't show already scrapped equipment for new requests normally?
         // Actually if we are viewing a request for a scrapped item we need it. 
         // But for new requests we shouldn't select scrapped items. 
         // Let's filter client side or handle gracefully.
+=======
+        .select("id, name, serial_number, assigned_team_id, status, category_id, equipment_categories(id, name)")
+        .eq("organization_id", organizationId)
+      
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
       return data as any[]
     },
     enabled: !!organizationId,
@@ -94,9 +116,24 @@ export default function MaintenanceForm() {
   // Auto-fill Logic
   useEffect(() => {
     if (selectedEquipment && !isEditing) {
+<<<<<<< HEAD
       if (selectedEquipment.assigned_team_id) {
         form.setValue("assigned_team_id", selectedEquipment.assigned_team_id)
       }
+=======
+      if (selectedEquipment.status === 'Scrapped' || selectedEquipment.status === 'Scrap') {
+         toast.error("Cannot create request for Scrapped equipment")
+         form.setValue("equipment_id", "")
+         return
+      }
+
+      if (selectedEquipment.assigned_team_id) {
+        form.setValue("assigned_team_id", selectedEquipment.assigned_team_id)
+      }
+      if (selectedEquipment.category_id) {
+        form.setValue("equipment_category_id", selectedEquipment.category_id)
+      }
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
     }
   }, [selectedEquipment, isEditing, form])
 
@@ -191,7 +228,15 @@ export default function MaintenanceForm() {
                     <FormItem>
                       <FormLabel>Issue Title</FormLabel>
                       <FormControl>
+<<<<<<< HEAD
                         <Input placeholder="e.g. Pump vibration excessive" {...field} />
+=======
+                        <Input 
+                          placeholder="e.g. Pump vibration excessive" 
+                          {...field} 
+                          disabled={role === 'technician' && isEditing}
+                        />
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -227,6 +272,19 @@ export default function MaintenanceForm() {
                     </FormItem>
                   )}
                 />
+<<<<<<< HEAD
+=======
+                
+                <div className="space-y-2">
+                   <FormLabel>Equipment Category</FormLabel>
+                   <Input 
+                     disabled 
+                     value={selectedEquipment?.equipment_categories?.name || "Auto-filled"} 
+                     placeholder="Category will appear here"
+                     className="bg-muted"
+                   />
+                </div>
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
 
                 <FormField
                   control={form.control}
@@ -234,7 +292,15 @@ export default function MaintenanceForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Priority</FormLabel>
+<<<<<<< HEAD
                       <Select onValueChange={field.onChange} value={field.value}>
+=======
+                      <Select 
+                        onValueChange={field.onChange} 
+                        value={field.value}
+                        disabled={role === 'technician'}
+                      >
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue />
@@ -259,7 +325,15 @@ export default function MaintenanceForm() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
+<<<<<<< HEAD
                         <Textarea rows={3} {...field} />
+=======
+                        <Textarea 
+                          rows={3} 
+                          {...field} 
+                          disabled={role === 'technician' && isEditing}
+                        />
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -333,7 +407,15 @@ export default function MaintenanceForm() {
                     <FormItem>
                       <FormLabel>Type</FormLabel>
                       {/* @ts-ignore - name clash with zod schema potentially but mapped correctly */}
+<<<<<<< HEAD
                       <Select onValueChange={field.onChange} value={field.value}>
+=======
+                      <Select 
+                        onValueChange={field.onChange} 
+                        value={field.value}
+                        disabled={role === 'technician'}
+                      >
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue />
@@ -358,7 +440,11 @@ export default function MaintenanceForm() {
                       <Select 
                         onValueChange={field.onChange} 
                         value={field.value}
+<<<<<<< HEAD
                         disabled={role === 'requester' && field.value !== 'New'}
+=======
+                        disabled={role === 'requester'}
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -366,10 +452,34 @@ export default function MaintenanceForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
+<<<<<<< HEAD
                           <SelectItem value="New">New</SelectItem>
                           <SelectItem value="In Progress">In Progress</SelectItem>
                           <SelectItem value="Repaired">Repaired</SelectItem>
                           <SelectItem value="Scrap">Scrap (Equipment will be retired)</SelectItem>
+=======
+                          {/* Logic: 
+                              - Manager/Admin: All statuses
+                              - Technician: 
+                                - New -> In Progress
+                                - In Progress -> Repaired, Scrap
+                                - Terminal (Repaired/Scrap) -> No changes (or maybe back to In Progress if mistake?)
+                              - Requester: None (disabled)
+                           */}
+                           <SelectItem value="New">New</SelectItem>
+                           
+                           {(role === 'manager' || role === 'admin' || field.value === 'New' || field.value === 'In Progress') && (
+                             <SelectItem value="In Progress">In Progress</SelectItem>
+                           )}
+                           
+                           {(role === 'manager' || role === 'admin' || field.value === 'In Progress' || field.value === 'Repaired') && (
+                             <SelectItem value="Repaired">Repaired</SelectItem>
+                           )}
+
+                           {(role === 'manager' || role === 'admin' || field.value === 'In Progress' || field.value === 'Scrap') && (
+                             <SelectItem value="Scrap">Scrap (Equipment will be retired)</SelectItem>
+                           )}
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -384,7 +494,15 @@ export default function MaintenanceForm() {
                     <FormItem>
                       <FormLabel>Scheduled Date</FormLabel>
                       <FormControl>
+<<<<<<< HEAD
                         <Input type="datetime-local" {...field} />
+=======
+                        <Input 
+                          type="datetime-local" 
+                          {...field} 
+                          disabled={role === 'technician'}
+                        />
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                       </FormControl>
                        <FormMessage />
                     </FormItem>
@@ -398,7 +516,16 @@ export default function MaintenanceForm() {
                     <FormItem>
                       <FormLabel>Est. Duration (minutes)</FormLabel>
                       <FormControl>
+<<<<<<< HEAD
                         <Input type="number" {...field} />
+=======
+                        <Input 
+                          type="number" 
+                          {...field} 
+                          disabled={form.watch("status") !== "Repaired"}
+                          placeholder="Enabled when Repaired"
+                        />
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                       </FormControl>
                        <FormMessage />
                     </FormItem>

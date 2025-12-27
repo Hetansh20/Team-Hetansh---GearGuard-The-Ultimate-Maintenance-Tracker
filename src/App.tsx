@@ -18,7 +18,10 @@ import Categories from "./pages/equipment/Categories"
 import Teams from "./pages/equipment/Teams"
 import MaintenanceList from "./pages/maintenance/MaintenanceList"
 import MaintenanceForm from "./pages/maintenance/MaintenanceForm"
+<<<<<<< HEAD
 import MaintenanceKanban from "./pages/maintenance/MaintenanceKanban"
+=======
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
 import NotFound from "./pages/NotFound"
 
 const queryClient = new QueryClient()
@@ -108,6 +111,7 @@ function App() {
                   }
                 />
                 <Route
+<<<<<<< HEAD
                   path="/dashboard/maintenance/kanban"
                   element={
                     <ProtectedRoute>
@@ -118,6 +122,8 @@ function App() {
                   }
                 />
                 <Route
+=======
+>>>>>>> f3ac9b6db3aae1a0dda67e6f21dbf5fbbec4ca28
                   path="/dashboard/maintenance/new"
                   element={
                     <ProtectedRoute>

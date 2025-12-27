@@ -49,6 +49,7 @@ const navigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Work Orders", href: "/dashboard/work-orders", icon: ClipboardList },
   { name: "Equipment", href: "/dashboard/equipment", icon: Settings },
+  { name: "Maintenance", href: "/dashboard/maintenance", icon: Wrench },
   { name: "Categories", href: "/dashboard/categories", icon: LayoutDashboard, roles: ["admin", "manager"] },
   { name: "Maintenance Teams", href: "/dashboard/teams", icon: Users, roles: ["admin", "manager"] },
   { name: "Team", href: "/dashboard/team", icon: Users, roles: ["admin", "manager"] },
