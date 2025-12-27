@@ -14,6 +14,158 @@ export type Database = {
   }
   public: {
     Tables: {
+      equipment: {
+        Row: {
+          assigned_team_id: string | null
+          category_id: string | null
+          created_at: string
+          id: string
+          name: string
+          organization_id: string
+          serial_number: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_team_id?: string | null
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          organization_id: string
+          serial_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_team_id?: string | null
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          organization_id?: string
+          serial_number?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "equipment_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equipment_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      equipment_categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          organization_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          organization_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          organization_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_categories_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_requests: {
+        Row: {
+          assigned_team_id: string | null
+          assigned_technician_id: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          duration: number | null
+          equipment_category_id: string | null
+          equipment_id: string
+          id: string
+          organization_id: string
+          priority: string
+          scheduled_date: string | null
+          status: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_team_id?: string | null
+          assigned_technician_id?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          duration?: number | null
+          equipment_category_id?: string | null
+          equipment_id: string
+          id?: string
+          organization_id: string
+          priority: string
+          scheduled_date?: string | null
+          status: string
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_team_id?: string | null
+          assigned_technician_id?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          duration?: number | null
+          equipment_category_id?: string | null
+          equipment_id?: string
+          id?: string
+          organization_id?: string
+          priority?: string
+          scheduled_date?: string | null
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_requests_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_join_requests: {
         Row: {
           created_at: string

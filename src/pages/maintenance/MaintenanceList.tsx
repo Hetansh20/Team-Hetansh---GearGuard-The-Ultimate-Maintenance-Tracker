@@ -17,7 +17,7 @@ import { format } from "date-fns"
 import { MaintenanceStatus, MaintenancePriority } from "@/types/maintenance"
 
 export default function MaintenanceList() {
-  const { organizationId } = useUserRole()
+  const { organizationId, role } = useUserRole()
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
@@ -28,9 +28,9 @@ export default function MaintenanceList() {
   const { user } = useAuth()
 
   const { data: requests, isLoading } = useQuery({
-    queryKey: ["maintenance-requests", organizationId],
+    queryKey: ["maintenance-requests", organizationId, role],
     queryFn: async () => {
-      const { data, error } = await (supabase as any)
+      let query = supabase
         .from("maintenance_requests")
         .select(`
           *,
@@ -40,12 +40,17 @@ export default function MaintenanceList() {
           category:equipment_category_id(name)
         `)
         .eq("organization_id", organizationId)
-        .order("created_at", { ascending: false })
+
+      if (role !== 'admin' && role !== 'manager' && user?.id) {
+        query = query.or(`assigned_technician_id.eq.${user.id},created_by.eq.${user.id}`)
+      }
+      
+      const { data, error } = await query.order("created_at", { ascending: false })
       
       if (error) throw error
       return data as any[]
     },
-    enabled: !!organizationId,
+    enabled: !!organizationId && !!user,
   })
 
   const filteredRequests = requests?.filter((r) => {
