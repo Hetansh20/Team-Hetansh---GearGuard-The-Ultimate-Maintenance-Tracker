@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
 import { useUserRole } from "@/hooks/useUserRole"
+import { useAuth } from "@/contexts/AuthContext"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -20,7 +21,11 @@ export default function MaintenanceList() {
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
+
   const [priorityFilter, setPriorityFilter] = useState<string>("all")
+  const [typeFilter, setTypeFilter] = useState<string>("all")
+  const [assigneeFilter, setAssigneeFilter] = useState<string>("all")
+  const { user } = useAuth()
 
   const { data: requests, isLoading } = useQuery({
     queryKey: ["maintenance-requests", organizationId],
@@ -31,7 +36,8 @@ export default function MaintenanceList() {
           *,
           equipment:equipment_id(name, serial_number),
           assignee:assigned_technician_id(full_name),
-          team:assigned_team_id(name)
+          team:assigned_team_id(name),
+          category:equipment_category_id(name)
         `)
         .eq("organization_id", organizationId)
         .order("created_at", { ascending: false })
@@ -49,7 +55,9 @@ export default function MaintenanceList() {
       r.equipment?.serial_number.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || r.status === statusFilter
     const matchesPriority = priorityFilter === "all" || r.priority === priorityFilter
-    return matchesSearch && matchesStatus && matchesPriority
+    const matchesType = typeFilter === "all" || r.type === typeFilter
+    const matchesAssignee = assigneeFilter === "all" || (assigneeFilter === "mine" && r.assigned_technician_id === user?.id)
+    return matchesSearch && matchesStatus && matchesPriority && matchesType && matchesAssignee
   })
 
   const getStatusColor = (status: MaintenanceStatus) => {
@@ -114,6 +122,26 @@ export default function MaintenanceList() {
               <SelectItem value="Low">Low</SelectItem>
             </SelectContent>
           </Select>
+          <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="Corrective">Corrective</SelectItem>
+              <SelectItem value="Preventive">Preventive</SelectItem>
+            </SelectContent>
+
+          </Select>
+          <Select value={assigneeFilter} onValueChange={setAssigneeFilter}>
+             <SelectTrigger className="w-[150px]">
+               <SelectValue placeholder="Assignee" />
+             </SelectTrigger>
+             <SelectContent>
+               <SelectItem value="all">All Requests</SelectItem>
+               <SelectItem value="mine">My Work Orders</SelectItem>
+             </SelectContent>
+          </Select>
         </div>
       </div>
 
@@ -123,6 +151,7 @@ export default function MaintenanceList() {
             <TableRow className="bg-muted/50">
               <TableHead>Request</TableHead>
               <TableHead>Equipment</TableHead>
+              <TableHead>Category</TableHead>
               <TableHead>Assigned To</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Status</TableHead>
@@ -138,7 +167,7 @@ export default function MaintenanceList() {
               </TableRow>
             ) : filteredRequests?.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
+                <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
                   No maintenance requests found.
                 </TableCell>
               </TableRow>
@@ -157,6 +186,11 @@ export default function MaintenanceList() {
                   <TableCell>
                     <div className="font-medium">{r.equipment?.name || "Unknown Equipment"}</div>
                     <div className="text-xs text-muted-foreground font-mono">{r.equipment?.serial_number}</div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="secondary" className="font-normal text-xs">
+                       {r.category?.name || "N/A"}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-1 text-sm">
@@ -194,7 +228,7 @@ export default function MaintenanceList() {
                         {r.duration && (
                           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                             <Clock className="h-3 w-3" />
-                            {r.duration}m
+                            {r.duration}h
                           </div>
                         )}
                       </div>

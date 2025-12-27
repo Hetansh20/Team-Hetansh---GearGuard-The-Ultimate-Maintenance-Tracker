@@ -7,6 +7,7 @@ export interface MaintenanceRequest {
   title: string;
   description: string | null;
   equipment_id: string;
+  equipment_category_id: string | null;
   type: MaintenanceType;
   priority: MaintenancePriority;
   status: MaintenanceStatus;
