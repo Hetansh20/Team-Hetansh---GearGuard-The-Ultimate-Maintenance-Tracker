@@ -16,6 +16,8 @@ import EquipmentList from "./pages/equipment/EquipmentList"
 import EquipmentForm from "./pages/equipment/EquipmentForm"
 import Categories from "./pages/equipment/Categories"
 import Teams from "./pages/equipment/Teams"
+import MaintenanceList from "./pages/maintenance/MaintenanceList"
+import MaintenanceForm from "./pages/maintenance/MaintenanceForm"
 import NotFound from "./pages/NotFound"
 
 const queryClient = new QueryClient()
@@ -34,3 +36,116 @@ function App() {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/onboarding" element={<Onboarding />} />
                 <Route path="/join-organization" element={<JoinOrganization />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <Dashboard />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/team"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <Team />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/equipment"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <EquipmentList />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/equipment/:id"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <EquipmentForm />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/categories"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <Categories />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/teams"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <Teams />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/maintenance"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <MaintenanceList />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/maintenance/new"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <MaintenanceForm />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/maintenance/:id"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <MaintenanceForm />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/*"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <div className="flex items-center justify-center h-64 text-muted-foreground">
+                          <p>This section is coming soon</p>
+                        </div>
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AuthProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </React.StrictMode>
+  )
+}
+
+export default App
