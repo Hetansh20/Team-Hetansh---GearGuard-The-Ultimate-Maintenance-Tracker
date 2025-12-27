@@ -1,0 +1,7 @@
+project_id = "pgsrthlmsvyhsbooyulh"
+
+[functions.create-organization]
+verify_jwt = false
+
+[functions.manage-team]
+verify_jwt = false
