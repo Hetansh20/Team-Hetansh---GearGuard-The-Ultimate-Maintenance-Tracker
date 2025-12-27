@@ -40,3 +40,77 @@
 .read-the-docs {
   color: #888;
 }
+/* Replace default styles with Kanban-specific styles */
+
+/* Kanban Board Styles */
+.kanban-board {
+  @apply flex gap-6 overflow-x-auto pb-6 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent;
+  min-height: calc(100vh - 280px);
+}
+
+.kanban-column {
+  @apply flex flex-col bg-slate-50/50 rounded-xl border border-slate-200/60 min-w-[320px] max-w-[320px] transition-colors duration-200;
+}
+
+.kanban-column:hover {
+  @apply bg-slate-50;
+}
+
+.kanban-column-header {
+  @apply flex items-center justify-between px-5 py-4 border-b border-slate-200/60 bg-white/50 backdrop-blur-sm rounded-t-xl sticky top-0 z-10;
+}
+
+.kanban-card {
+  @apply bg-white rounded-xl p-5 mb-4 border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-200 cursor-grab active:cursor-grabbing relative overflow-hidden;
+}
+
+.kanban-card:hover {
+  @apply border-primary/20 ring-1 ring-primary/5;
+}
+
+.kanban-card-title {
+  @apply text-sm font-semibold text-slate-900 line-clamp-2 leading-snug mb-2;
+}
+
+.overdue-strip {
+  @apply absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-destructive to-orange-500;
+}
+
+/* Drag overlay styles */
+.kanban-card.dragging {
+  @apply opacity-50;
+}
+
+/* Locked card indicator */
+.kanban-card-locked {
+  @apply cursor-not-allowed opacity-70 bg-slate-50/50 grayscale-[0.2];
+}
+
+.kanban-card-locked::after {
+  content: "🔒";
+  @apply absolute top-2 right-2 text-xs opacity-50;
+}
+
+/* Priority indicators */
+.priority-high {
+  @apply text-destructive font-bold flex items-center gap-1;
+}
+
+.priority-medium {
+  @apply text-warning font-bold flex items-center gap-1;
+}
+
+.priority-low {
+  @apply text-muted-foreground font-medium flex items-center gap-1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .kanban-board {
+    @apply flex-col p-4;
+  }
+
+  .kanban-column {
+    @apply min-w-full max-w-none mb-6 last:mb-0;
+  }
+}

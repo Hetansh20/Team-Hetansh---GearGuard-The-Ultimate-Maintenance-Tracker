@@ -16,6 +16,9 @@ import EquipmentList from "./pages/equipment/EquipmentList"
 import EquipmentForm from "./pages/equipment/EquipmentForm"
 import Categories from "./pages/equipment/Categories"
 import Teams from "./pages/equipment/Teams"
+import MaintenanceList from "./pages/maintenance/MaintenanceList"
+import MaintenanceForm from "./pages/maintenance/MaintenanceForm"
+import MaintenanceKanban from "./pages/maintenance/MaintenanceKanban"
 import NotFound from "./pages/NotFound"
 
 const queryClient = new QueryClient()
@@ -90,6 +93,46 @@ function App() {
                     <ProtectedRoute>
                       <DashboardLayout>
                         <Teams />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/maintenance"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <MaintenanceList />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/maintenance/kanban"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <MaintenanceKanban />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/maintenance/new"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <MaintenanceForm />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard/maintenance/:id"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <MaintenanceForm />
                       </DashboardLayout>
                     </ProtectedRoute>
                   }
